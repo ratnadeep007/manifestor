@@ -6,6 +6,7 @@ import (
 	"manifest_creator/manifests"
 	"manifest_creator/utils"
 	"strconv"
+	"strings"
 
 	"github.com/manifoldco/promptui"
 )
@@ -105,8 +106,30 @@ func ContainerDetailPrompt(containerNumber int) manifests.Container {
 	if err != nil {
 		fmt.Printf("Failed %v\n", err)
 	}
+
+	validateImage := func(input string) error {
+		if len(input) < 5 {
+			return errors.New("length must be greater than 5") // can be left blank
+		}
+		if !strings.Contains(input, ":") {
+			return errors.New("please add a tag")
+		}
+		return nil
+	}
+
+	imagePrompt := promptui.Prompt{
+		Label:     "Image url with tag: ",
+		Templates: utils.GetPromptTemplate(),
+		Validate:  validateImage,
+	}
+	image, err := imagePrompt.Run()
+
+	if err != nil {
+		fmt.Printf("Failed %v\n", err)
+	}
 	return manifests.Container{
-		Name: name,
+		Name:  name,
+		Image: image,
 	}
 }
 
@@ -175,7 +198,30 @@ func InitContainerDetailPrompt(containerNumber int) manifests.InitContainer {
 	if err != nil {
 		fmt.Printf("Failed %v\n", err)
 	}
+
+	validateImage := func(input string) error {
+		if len(input) < 5 {
+			return errors.New("length must be greater than 5") // can be left blank
+		}
+		if !strings.Contains(input, ":") {
+			return errors.New("please add a tag")
+		}
+		return nil
+	}
+
+	imagePrompt := promptui.Prompt{
+		Label:     "Image url with tag: ",
+		Templates: utils.GetPromptTemplate(),
+		Validate:  validateImage,
+	}
+	image, err := imagePrompt.Run()
+
+	if err != nil {
+		fmt.Printf("Failed %v\n", err)
+	}
+
 	return manifests.InitContainer{
-		Name: name,
+		Name:  name,
+		Image: image,
 	}
 }

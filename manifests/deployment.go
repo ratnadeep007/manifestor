@@ -118,8 +118,8 @@ func (do DeploymentOutput) AddContainers(deploy Deployment) []Container {
 	for _, v := range deploy.Containers {
 		container := Container{
 			Name:  v.Name,
-			Image: "<insert your image here>",
-			Ports: []map[string]int{{"containerPort": 0}},
+			Image: v.Image,
+			Ports: []map[string]int{{"containerPort": 8000}},
 		}
 		containers = append(containers, container)
 	}
@@ -131,7 +131,7 @@ func (do DeploymentOutput) AddInitContainers(deploy Deployment) []InitContainer 
 	for _, v := range deploy.InitContainers {
 		container := InitContainer{
 			Name:    v.Name,
-			Image:   "<insert your image here>",
+			Image:   v.Image,
 			Command: []string{},
 		}
 		containers = append(containers, container)
