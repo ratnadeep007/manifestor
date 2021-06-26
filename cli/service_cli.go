@@ -139,7 +139,7 @@ func PortDetailPrompt(portsCount int) manifests.Port {
 	}
 	name, err := namePrompt.Run()
 	if err != nil {
-		fmt.Println("Failed %v\n", err)
+		fmt.Printf("Failed %v\n", err)
 	}
 
 	promptPortProtocol := promptui.Select{
