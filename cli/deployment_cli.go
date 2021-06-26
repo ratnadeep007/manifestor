@@ -32,7 +32,7 @@ func DeploymentQuestions() {
 func NamePrompt() string {
 	validate := func(input string) error {
 		if len(input) < 3 {
-			return errors.New("0length must be greater than 3")
+			return errors.New("length must be greater than 3")
 		}
 		return nil
 	}

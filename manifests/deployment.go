@@ -21,8 +21,8 @@ type Labels struct {
 
 type Metadata struct {
 	Name      string
-	Namespace string
-	Labels
+	Namespace string `yaml:",omitempty"`
+	Labels    `yaml:",omitempty"`
 }
 
 type MatchLabels struct {
@@ -41,10 +41,21 @@ type Template struct {
 	Metadata TemplateMetadata
 }
 
+type Resource struct {
+	Memory string
+	CPU    string
+}
+
+type Resources struct {
+	Request Resource
+	Limit   Resource
+}
+
 type Container struct {
-	Name  string
-	Image string
-	Ports []map[string]int
+	Name      string
+	Image     string
+	Ports     []map[string]int
+	Resources Resources
 }
 
 type InitContainer struct {
@@ -120,6 +131,12 @@ func (do DeploymentOutput) AddContainers(deploy Deployment) []Container {
 			Name:  v.Name,
 			Image: v.Image,
 			Ports: []map[string]int{{"containerPort": 8000}},
+			Resources: Resources{
+				Request: Resource{
+					CPU:    "250m",
+					Memory: "128Mi",
+				},
+			},
 		}
 		containers = append(containers, container)
 	}

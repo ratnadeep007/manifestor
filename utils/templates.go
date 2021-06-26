@@ -11,3 +11,12 @@ func GetPromptTemplate() *promptui.PromptTemplates {
 	}
 
 }
+
+func GetSelectTemplate() *promptui.SelectTemplates {
+	return &promptui.SelectTemplates{
+		Label:    "{{ . }}",
+		Active:   "\U00002192 {{ . | red }}",
+		Inactive: "  {{ . | cyan }}",
+		Selected: "  {{ . | green | bold }}",
+	}
+}
