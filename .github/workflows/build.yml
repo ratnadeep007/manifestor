@@ -43,5 +43,5 @@ jobs:
     - name: Upload to artifact
       uses: actions/upload-artifact@v2
       with:
-        name: totp-${{ matrix.platform }}
+        name: manifestor-${{ matrix.platform }}
         path: ./manifestor-${{ matrix.platform }}  

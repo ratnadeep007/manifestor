@@ -16,7 +16,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: build.yml
-        name: totp-ubuntu-latest
+        name: manifestor-ubuntu-latest
         path: .
     
     - name: Download artifact macos
@@ -24,7 +24,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: build.yml
-        name: totp-macos-latest
+        name: manifestor-macos-latest
         path: .
         
     - name: Download artifact linux
@@ -32,7 +32,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         workflow: build.yml
-        name: totp-windows-latest
+        name: manifestor-windows-latest
         path: .
     
     - name: Create Release
@@ -56,8 +56,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: totp-ubuntu-latest
-        asset_name: totp-linux
+        asset_path: manifestor-ubuntu-latest
+        asset_name: manifestor-linux
         asset_content_type: application/octet-stream
     
     - name: Upload macos artifacts
@@ -66,8 +66,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: totp-macos-latest
-        asset_name: totp-macos
+        asset_path: manifestor-macos-latest
+        asset_name: manifestor-macos
         asset_content_type: application/octet-stream
     
     - name: Upload windows artifacts
@@ -76,6 +76,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: totp-windows-latest
-        asset_name: totp.exe
+        asset_path: manifestor-windows-latest
+        asset_name: manifestor.exe
         asset_content_type: application/octet-stream
