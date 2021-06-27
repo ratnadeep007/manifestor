@@ -1,0 +1,81 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+name: Release For platforms
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # sets up go based on the version
+    - name: Download artifact linux
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: build.yml
+        name: totp-ubuntu-latest
+        path: .
+    
+    - name: Download artifact macos
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: build.yml
+        name: totp-macos-latest
+        path: .
+        
+    - name: Download artifact linux
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        workflow: build.yml
+        name: totp-windows-latest
+        path: .
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          Alpha v1 Release
+          - Create Deployment
+          - Create Services
+        draft: false
+        prerelease: false
+     
+    - name: Upload linux artifacts
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: totp-ubuntu-latest
+        asset_name: totp-linux
+        asset_content_type: application/octet-stream
+    
+    - name: Upload macos artifacts
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: totp-macos-latest
+        asset_name: totp-macos
+        asset_content_type: application/octet-stream
+    
+    - name: Upload windows artifacts
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: totp-windows-latest
+        asset_name: totp.exe
+        asset_content_type: application/octet-stream
