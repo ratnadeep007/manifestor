@@ -2,7 +2,7 @@ package cli
 
 import (
 	"errors"
-	"fmt"
+	"log"
 	"manifest_creator/manifests"
 	"manifest_creator/utils"
 	"strconv"
@@ -44,9 +44,7 @@ func NamePrompt() string {
 	}
 
 	name, err := promptName.Run()
-	if err != nil {
-		fmt.Printf("Failed %v\n", err)
-	}
+	utils.GraceFullExit(err)
 
 	return name
 }
@@ -70,12 +68,10 @@ func ContainerCountPrompt() int {
 		Templates: utils.GetPromptTemplate(),
 	}
 	containerCountResult, err := promptContainerCount.Run()
-	if err != nil {
-		fmt.Printf("Failed %v\n", err)
-	}
+	utils.GraceFullExit(err)
 	count, err := strconv.Atoi(containerCountResult)
 	if err != nil {
-		fmt.Printf("Failed %v\n", err)
+		log.Fatal(err)
 	}
 	return count
 }
@@ -103,9 +99,7 @@ func ContainerDetailPrompt(containerNumber int) manifests.Container {
 		Templates: utils.GetPromptTemplate(),
 	}
 	name, err := namePrompt.Run()
-	if err != nil {
-		fmt.Printf("Failed %v\n", err)
-	}
+	utils.GraceFullExit(err)
 
 	validateImage := func(input string) error {
 		if len(input) < 5 {
@@ -124,9 +118,7 @@ func ContainerDetailPrompt(containerNumber int) manifests.Container {
 	}
 	image, err := imagePrompt.Run()
 
-	if err != nil {
-		fmt.Printf("Failed %v\n", err)
-	}
+	utils.GraceFullExit(err)
 	return manifests.Container{
 		Name:  name,
 		Image: image,
@@ -139,9 +131,7 @@ func InitContainerPrompt() (bool, []manifests.InitContainer) {
 		IsConfirm: true,
 	}
 	initContainerResult, err := promptInitContainer.Run()
-	if err != nil {
-		fmt.Printf("Failed %v\n", err)
-	}
+	utils.GraceFullExit(err)
 	if initContainerResult == "y" || initContainerResult == "Y" {
 		validate := func(input string) error {
 			number, err := strconv.Atoi(input)
@@ -160,12 +150,10 @@ func InitContainerPrompt() (bool, []manifests.InitContainer) {
 			Templates: utils.GetPromptTemplate(),
 		}
 		containerCountResult, err := promptContainerCount.Run()
-		if err != nil {
-			fmt.Printf("Failed %v\n", err)
-		}
+		utils.GraceFullExit(err)
 		count, err := strconv.Atoi(containerCountResult)
 		if err != nil {
-			fmt.Printf("Failed %v\n", err)
+			log.Fatal(err)
 		}
 		return true, InitContainerDetailList(count)
 	}
@@ -195,9 +183,7 @@ func InitContainerDetailPrompt(containerNumber int) manifests.InitContainer {
 		Templates: utils.GetPromptTemplate(),
 	}
 	name, err := namePrompt.Run()
-	if err != nil {
-		fmt.Printf("Failed %v\n", err)
-	}
+	utils.GraceFullExit(err)
 
 	validateImage := func(input string) error {
 		if len(input) < 5 {
@@ -216,9 +202,7 @@ func InitContainerDetailPrompt(containerNumber int) manifests.InitContainer {
 	}
 	image, err := imagePrompt.Run()
 
-	if err != nil {
-		fmt.Printf("Failed %v\n", err)
-	}
+	utils.GraceFullExit(err)
 
 	return manifests.InitContainer{
 		Name:  name,

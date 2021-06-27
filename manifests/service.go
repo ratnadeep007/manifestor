@@ -28,10 +28,11 @@ type ServiceSpec struct {
 }
 
 type Port struct {
-	Name       string
+	Name       string `yaml:",omitempty"`
 	Protocol   string
 	Port       int
 	TargetPort int `yaml:"targetPort"`
+	NodePort   int `yaml:",omitempty"`
 }
 
 type ServiceOutput struct {

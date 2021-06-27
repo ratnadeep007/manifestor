@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	"manifest_creator/utils"
 
 	"github.com/manifoldco/promptui"
@@ -16,10 +15,7 @@ func Run() {
 	}
 
 	_, result, err := promptKind.Run()
-	if err != nil {
-		fmt.Printf("Failed %v\n", err)
-		return
-	}
+	utils.GraceFullExit(err)
 
 	switch result {
 	case "Deployment":
