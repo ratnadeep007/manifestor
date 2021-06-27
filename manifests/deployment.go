@@ -136,6 +136,10 @@ func (do DeploymentOutput) AddContainers(deploy Deployment) []Container {
 					CPU:    "250m",
 					Memory: "128Mi",
 				},
+				Limit: Resource{
+					CPU:    "250m",
+					Memory: "128Mi",
+				},
 			},
 		}
 		containers = append(containers, container)

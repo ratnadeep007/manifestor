@@ -102,7 +102,10 @@ func ContainerDetailPrompt(containerNumber int) manifests.Container {
 	utils.GraceFullExit(err)
 
 	validateImage := func(input string) error {
-		if len(input) < 5 {
+		if len(input) == 0 {
+			return nil
+		}
+		if len(input) > 0 && len(input) < 5 {
 			return errors.New("length must be greater than 5") // can be left blank
 		}
 		if !strings.Contains(input, ":") {
@@ -117,6 +120,10 @@ func ContainerDetailPrompt(containerNumber int) manifests.Container {
 		Validate:  validateImage,
 	}
 	image, err := imagePrompt.Run()
+
+	if image == "" {
+		image = "<insert image url here>"
+	}
 
 	utils.GraceFullExit(err)
 	return manifests.Container{
@@ -186,7 +193,10 @@ func InitContainerDetailPrompt(containerNumber int) manifests.InitContainer {
 	utils.GraceFullExit(err)
 
 	validateImage := func(input string) error {
-		if len(input) < 5 {
+		if len(input) == 0 {
+			return nil
+		}
+		if len(input) > 0 && len(input) < 5 {
 			return errors.New("length must be greater than 5") // can be left blank
 		}
 		if !strings.Contains(input, ":") {
@@ -201,6 +211,10 @@ func InitContainerDetailPrompt(containerNumber int) manifests.InitContainer {
 		Validate:  validateImage,
 	}
 	image, err := imagePrompt.Run()
+
+	if image == "" {
+		image = "<insert image url here>"
+	}
 
 	utils.GraceFullExit(err)
 
